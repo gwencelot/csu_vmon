@@ -1,0 +1,46 @@
+Step 1
+
+CREATE DATABASE vehicle_monitoring;  
+USE vehicle_monitoring;  
+CREATE TABLE users (  
+user_id INT AUTO_INCREMENT PRIMARY KEY,  
+username VARCHAR(100) NOT NULL,  
+password VARCHAR(255) NOT NULL,  
+role ENUM('admin', 'viewer') NOT NULL  
+);  
+
+
+Step 2
+
+CREATE TABLE vehicles (  
+    vehicle_id INT AUTO_INCREMENT PRIMARY KEY,  
+    plate_id VARCHAR(50) NOT NULL,  
+    plate_number VARCHAR(50) NOT NULL,  
+    model VARCHAR(100) NOT NULL,  
+    certificate VARCHAR(255),  
+    proprietor VARCHAR(100),  
+    driver_code VARCHAR(50),  
+    first_name VARCHAR(100),  
+    last_name VARCHAR(100),  
+    driver_type ENUM('professional', 'non-professional'),  
+    driver_photo VARCHAR(255),  
+    registered_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP  
+);  
+
+Step 3
+
+CREATE TABLE login (  
+login_id INT(11) NOT NULL AUTO_INCREMENT,  
+username VARCHAR(50) NOT NULL,  
+password VARCHAR(50) NOT NULL,  
+login_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,  
+PRIMARY KEY (login_id)  
+); 
+
+
+Step 4
+
+ALTER TABLE vehicles 
+ADD COLUMN certificate_expiry_date DATE AFTER driver_photo, 
+ADD COLUMN or_expiry_date DATE AFTER certificate_expiry_date, 
+ADD COLUMN driver_license_no VARCHAR(50) AFTER or_expiry_date; 

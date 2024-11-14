@@ -1,46 +1,41 @@
-Step 1
+-- First create the database
+CREATE DATABASE IF NOT EXISTS vehicle_monitoring;
+USE vehicle_monitoring;
 
-CREATE DATABASE vehicle_monitoring;  
-USE vehicle_monitoring;  
-CREATE TABLE users (  
-user_id INT AUTO_INCREMENT PRIMARY KEY,  
-username VARCHAR(100) NOT NULL,  
-password VARCHAR(255) NOT NULL,  
-role ENUM('admin', 'viewer') NOT NULL  
-);  
+-- Create login_log table
+CREATE TABLE login_log (
+    login_id INT(11) NOT NULL AUTO_INCREMENT,
+    username VARCHAR(50) DEFAULT NULL,
+    login_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    success TINYINT(1) DEFAULT NULL,
+    PRIMARY KEY (login_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- Create users table
+CREATE TABLE users (
+    user_id INT(11) NOT NULL AUTO_INCREMENT,
+    username VARCHAR(100) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    role ENUM('admin', 'viewer') NOT NULL,
+    login_time TIMESTAMP NULL DEFAULT NULL,
+    PRIMARY KEY (user_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-Step 2
-
-CREATE TABLE vehicles (  
-    vehicle_id INT AUTO_INCREMENT PRIMARY KEY,  
-    plate_id VARCHAR(50) NOT NULL,  
-    plate_number VARCHAR(50) NOT NULL,  
-    model VARCHAR(100) NOT NULL,  
-    certificate VARCHAR(255),  
-    proprietor VARCHAR(100),  
-    driver_code VARCHAR(50),  
-    first_name VARCHAR(100),  
-    last_name VARCHAR(100),  
-    driver_type ENUM('professional', 'non-professional'),  
-    driver_photo VARCHAR(255),  
-    registered_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP  
-);  
-
-Step 3
-
-CREATE TABLE login (  
-login_id INT(11) NOT NULL AUTO_INCREMENT,  
-username VARCHAR(50) NOT NULL,  
-password VARCHAR(50) NOT NULL,  
-login_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,  
-PRIMARY KEY (login_id)  
-); 
-
-
-Step 4
-
-ALTER TABLE vehicles 
-ADD COLUMN certificate_expiry_date DATE AFTER driver_photo, 
-ADD COLUMN or_expiry_date DATE AFTER certificate_expiry_date, 
-ADD COLUMN driver_license_no VARCHAR(50) AFTER or_expiry_date; 
+-- Create vehicles table
+CREATE TABLE vehicles (
+    vehicle_id INT(11) NOT NULL AUTO_INCREMENT,
+    plate_id VARCHAR(50) NOT NULL,
+    plate_number VARCHAR(50) NOT NULL,
+    model VARCHAR(100) NOT NULL,
+    proprietor VARCHAR(100) DEFAULT NULL,
+    driver_code VARCHAR(50) DEFAULT NULL,
+    first_name VARCHAR(100) DEFAULT NULL,
+    last_name VARCHAR(100) DEFAULT NULL,
+    driver_type ENUM('professional', 'non-professional') DEFAULT NULL,
+    driver_photo VARCHAR(255) DEFAULT NULL,
+    cr_expiry_date DATE DEFAULT NULL,
+    or_expiry_date DATE DEFAULT NULL,
+    driver_license_no VARCHAR(50) DEFAULT NULL,
+    registered_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (vehicle_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
